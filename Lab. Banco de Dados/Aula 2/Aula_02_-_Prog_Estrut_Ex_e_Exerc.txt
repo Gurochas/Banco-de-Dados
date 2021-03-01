@@ -1,0 +1,106 @@
+/*
+Programação estruturada em SQL (Com SQL SERVER)
+Declaração de variáveis:
+DECLARE @var TIPO
+
+Atribuição de variáveis:
+SET @var = valor
+SET @var = (SELECT col FROM Tbl WHERE col = valor) -- Permitido se o select retorna 1 único valor
+SELECT @var = col FROM Tbl WHERE col = valor -- Permitido se o select retorna 1 único valor
+
+Condicional:
+IF (condição lógica)
+BEGIN
+	.
+	.
+	.
+END
+ELSE
+BEGIN
+	.
+	.
+	.
+END
+
+Repetição (Não se usa FOR para essa finalidade)
+WHILE (condição lógica)
+BEGIN
+	.
+	.
+	.
+END
+
+-- Exemplo com Tabelas
+
+create table produto(
+codigo int not null primary key,
+nome varchar(100),
+preco float)
+
+declare @i as int
+declare @preco as float
+set @i = 1
+while @i <= 10000
+begin
+	if (@i % 2 = 0)
+	begin
+		set @preco = @i * 1.5
+	end
+	else
+	begin
+		set @preco = @i * 2.5
+	end
+	insert into produto 
+		values (@i,'Produto '+CONVERT(varchar(5),@i),@preco)
+	set @i = @i + 1
+end
+
+select * from produto
+
+-- Fazer um algoritmo que calcule a tabuada de um dado número
+declare @a as int
+declare @cont as int
+set @a = 12
+set @cont = 1
+while @cont <= 10
+	begin
+		if @cont = 1
+			begin
+				print ((convert (char(2),@a)+' x 0 = '+convert (char(4),(@cont - 1))))
+				print ((convert (char(2),@a)+' x 1 = '+convert (char(4),@a)))
+				set @cont = @cont + 1
+			end
+		else
+			begin
+				print ((convert (char(2),@a)+' x '+(convert (varchar(2),@cont))+' = '+(convert (char(4),(@a*@cont)))))
+				set @cont = @cont + 1
+			end
+	end
+	
+
+
+/*Fazer um algoritmo que leia 3 valores e retorne se os valores formam um triângulo e se ele é
+isóceles, escaleno ou equilátero.
+Condições para formar um triângulo
+	Nenhum valor pode ser = 0
+	Um lado não pode ser maior que a soma dos outros 2.
+*/
+
+ -- Fazer um algoritmo que leia 1 número e mostre se são múltiplos de 2,3,5 ou nenhum deles
+
+ -- Fazer um algoritmo que leia 3 número e mostre o maior e o menor
+/*
+Fazer um algoritmo que calcule os 15 primeiros termos da série
+1,1,2,3,5,8,13,21,...
+E calcule a soma dos 15 termos
+*/
+
+
+-- Fazer um algorimto que separa uma frase, colocando todas as letras em maiúsculo e em minúsculo
+
+
+-- Fazer um algoritmo que inverta uma palavra
+
+
+-- Verificar palindromo
+
