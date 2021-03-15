@@ -56,7 +56,7 @@ CREATE PROCEDURE sp_transacao(@codigo VARCHAR(5), @codigo_transacao INT, @codigo
 AS 
 	DECLARE @valor_total AS DECIMAL(7,2),
 			@query VARCHAR(MAX),
-			@tabela	VARCHAR(MAX),
+			@tabela	VARCHAR(7),
 			@erro	VARCHAR(MAX)
 
 	SET @valor_total = (SELECT valor FROM produto WHERE codigo = @codigo_produto) * @quantidade
