@@ -1,0 +1,70 @@
+package boundary;
+
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+
+public class TelaPrincipal extends Application 
+							implements EventHandler<ActionEvent>{
+	BorderPane bpPrincipal = new BorderPane();
+	
+	TelaSecundaria telaTimes = new TelaTimes();
+	TelaSecundaria telaGrupos = new TelaGrupos();
+	TelaSecundaria telaJogos = new TelaJogos();
+	TelaSecundaria telaData = new TelaData();
+	
+	MenuItem menuTimes = new MenuItem("Separar Times");
+	MenuItem menuJogos = new MenuItem("Gerar Jogos");
+	MenuItem menuGrupos = new MenuItem("Mostrar Grupos");
+	MenuItem menuDatas = new MenuItem("Datas dos Jogos");
+
+	@Override
+	public void start(Stage stage) throws Exception {
+		
+		Scene scn = new Scene(bpPrincipal, 496, 600);
+		
+		MenuBar menuBar = new MenuBar();
+		Menu menu = new Menu("Telas");
+		menu.getItems().addAll(menuTimes, menuJogos, menuGrupos, menuDatas);
+		menuBar.getMenus().addAll(menu);
+
+		
+		menuTimes.setOnAction(this);
+		menuJogos.setOnAction(this);
+		menuGrupos.setOnAction(this);
+		menuDatas.setOnAction(this);
+		
+		bpPrincipal.setTop(menuBar);
+		bpPrincipal.setCenter(telaTimes.gerarTela());
+		
+		stage.setScene(scn);
+		stage.setTitle("Campeonato Paulista de Futebol - 2019");
+		stage.show();
+	}
+	
+	@Override
+	public void handle(ActionEvent e) {
+		if (e.getSource() == menuTimes) {
+			bpPrincipal.setCenter(telaTimes.gerarTela());
+		}
+		if (e.getSource() == menuGrupos) {
+			bpPrincipal.setCenter(telaGrupos.gerarTela());
+		}
+		if (e.getSource() == menuJogos) {
+			bpPrincipal.setCenter(telaJogos.gerarTela());
+		}
+		if (e.getSource() == menuDatas) {
+			bpPrincipal.setCenter(telaData.gerarTela());
+		}
+	}
+	
+	public static void main(String[] args) {
+		Application.launch(TelaPrincipal.class, args);
+	}
+}
