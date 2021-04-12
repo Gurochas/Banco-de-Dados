@@ -164,7 +164,8 @@ AS
 			@times_jogados AS INT,
 			@adversario AS INT,
 			@jogou AS INT,
-			@id_time AS INT
+			@id_time AS INT, 
+			@mesmoGrupo AS INT 
 	
 	-- Escolhe o dia de inicio e do fim de campeonato
 	SET @dia_de_hoje = '2019-01-19'
@@ -179,6 +180,7 @@ AS
 
 			SET @times_jogados = 1
 
+			-- Enquanto os 16 times não tiverem jogado
 			WHILE (@times_jogados <= 16 )
 			BEGIN 
 
@@ -208,7 +210,7 @@ AS
 						SET @adversario = @id_time + @contador 
 						IF (@adversario > 16)
 						BEGIN
-							SET @adversario = @adversario - 16 
+							SET @adversario = @adversario - 16
 						END 
 
 						-- Verifica se adversario já jogou no dia de hoje
@@ -225,9 +227,17 @@ AS
 									   FROM Jogos AS J 
 									   WHERE (j.CodigoTimeA = @id_time AND j.CodigoTimeB = @adversario) OR 
 											 (j.CodigoTimeA = @adversario AND j.CodigoTimeB = @id_time))
+
+						-- Verifica se ambos os times estão no mesmo Grupo					
+						SET @mesmoGrupo = NULL
+						SET @mesmoGrupo = (SELECT g1.Codigo_Time
+										   FROM Grupos g1, Grupos g2
+									       WHERE g1.Grupo != g2.Grupo
+											 AND g1.Codigo_Time = @id_time
+											 AND g2.Codigo_Time = @adversario)
 						
 						-- Se alguma das condições forem Verdadeiras, ira se decidir um novo adversario.
-						IF ((@codigo IS NOT NULL) OR (@codigoAdv IS NOT NULL) or (@id_time = @adversario))
+						IF ((@codigo IS NOT NULL) OR (@codigoAdv IS NOT NULL) or (@id_time = @adversario) OR (@mesmoGrupo IS NULL))
 						BEGIN 
 							SET @contador = @contador + 1
 						END 
@@ -295,8 +305,9 @@ FROM Grupos g
 INNER JOIN Times t
 ON t.CodigoTime = g.Codigo_Time
 
+SELECT * FROM Jogos ORDER BY CodigoTimeA
 SELECT * FROM Times 
-SELECT * FROM Jogos ORDER BY DataJogo
+
 
 -- PROCEDURES -- 
 EXEC sp_gerarGrupos
@@ -309,3 +320,7 @@ SELECT * FROM fn_gerarTabelaGrupo('C')
 SELECT * FROM fn_gerarTabelaGrupo('D')
 
 SELECT * FROM fn_consultarData('2019-01-20')	
+
+-- Truncate -- 
+TRUNCATE TABLE Jogos 
+TRUNCATE TABLE Grupos
