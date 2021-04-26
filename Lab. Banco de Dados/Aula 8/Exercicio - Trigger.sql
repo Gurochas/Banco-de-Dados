@@ -13,7 +13,6 @@ nome VARCHAR(100),
 descricao VARCHAR(200),
 valor_unitario DECIMAL(7,2)
 )
-
 INSERT produto VALUES (1, 'Havaiana do Star Wars', 'Ir para o lado negro da força não é desculpa para ter o pé preto!!!!', 39.99)
 INSERT produto VALUES (2, 'Havaiana de Praia', 'Antes areia na estampa que no seu pé!', 39.99)
 INSERT produto VALUES (3, 'Havaiana do Batman', 'Na dúvida entre o Batman e o superman, leva os dois em um par só!', 39.99)
@@ -30,7 +29,6 @@ INSERT estoque VALUES (1, 30, 5)
 INSERT estoque VALUES (2, 10, 2)
 INSERT estoque VALUES (3, 70, 80)
 
-
 -- Venda
 -- Nota_Fiscal | Codigo_Produto | Quantidade
 CREATE TABLE venda (
@@ -39,9 +37,6 @@ codigo_produto INT,
 quantidade INT
 FOREIGN KEY (codigo_produto) REFERENCES produto(codigo)
 )
-INSERT INTO venda VALUES ('231', 1, 35)
-INSERT INTO venda VALUES ('132', 2, 9)
-INSERT INTO venda VALUES ('321', 3, 15)
 
 
 /* 
@@ -100,6 +95,10 @@ BEGIN
 	END 	
 END 
 
+-- Testes Trigger 
+INSERT INTO venda VALUES ('231', 1, 35)
+INSERT INTO venda VALUES ('132', 2, 9)
+INSERT INTO venda VALUES ('321', 3, 15)
 
 -- Fazer uma UDF (User Defined Function) Multi Statement Table, que apresente, para uma dada nota fiscal, a seguinte saída:
 -- (Nota_Fiscal | Codigo_Produto | Nome_Produto | Descricao_Produto | Valor_Unitario | Quantidade | Valor_Total*)
@@ -128,34 +127,3 @@ END
 GO
 
 SELECT * FROM fn_gerarNotaFiscal('132')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

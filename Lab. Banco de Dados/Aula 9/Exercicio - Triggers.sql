@@ -80,16 +80,17 @@ BEGIN
 		WHERE codigo_cliente = @cliente 
 	END 
 END
-GO 
+GO
+ 
+SELECT * FROM venda 
+SELECT * FROM pontos
+SELECT * FROM cliente 
 
+-- Teste Triggers 
 INSERT venda VALUES (123, 1, 279.93)
 INSERT venda VALUES (124, 2, 197.95)
 INSERT venda VALUES (125, 3, 221.94)
 INSERT venda VALUES (126, 3, 221.94)
-
-SELECT * FROM venda 
-SELECT * FROM pontos
-SELECT * FROM cliente 
 
 DELETE venda 
 DELETE pontos 
