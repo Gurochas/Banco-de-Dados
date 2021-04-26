@@ -300,14 +300,22 @@ END
 GO 
 
 -- SELECTS -- 
+-- Todos os Grupos
 SELECT g.Grupo, t.NomeTime
 FROM Grupos g
 INNER JOIN Times t
 ON t.CodigoTime = g.Codigo_Time
 
-SELECT * FROM Jogos ORDER BY CodigoTimeA
-SELECT * FROM Times 
+-- Todos os Jogos (Santos na Vila Belmiro)
+SELECT j.DataJogo, ta.CodigoTime AS CodigoTimeA, ta.NomeTime AS NomeTimeA, 
+	   tb.CodigoTime AS CodigoTimeB, tb.NomeTime AS NomeTimeB
+FROM Jogos j, Times ta, Times tb
+WHERE ta.CodigoTime = j.CodigoTimeA
+	AND tb.CodigoTime = j.CodigoTimeB
+	ORDER BY j.DataJogo
 
+-- Todos os Times 
+SELECT * FROM Times 
 
 -- PROCEDURES -- 
 EXEC sp_gerarGrupos
