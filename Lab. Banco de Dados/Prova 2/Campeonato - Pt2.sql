@@ -420,7 +420,7 @@ AS
 	por saldo de gols.
 */
 GO
-ALTER FUNCTION fn_gerarTabelaGrupoComPontos(@grupo AS CHAR(1))
+CREATE FUNCTION fn_gerarTabelaGrupoComPontos(@grupo AS CHAR(1))
 RETURNS @grupos TABLE (
 nome_time	VARCHAR(100),
 num_jogos_disputados INT default(0),
@@ -518,7 +518,7 @@ GO
 
 --As quartas de final serão disputadas entre o 1º e o 2º de cada grupo. Gerá-las a partir de UDF.
 GO
-ALTER FUNCTION fn_gerarQuartas ()
+CREATE FUNCTION fn_gerarQuartas ()
 RETURNS @quartas TABLE (
 nome_time	VARCHAR(100),
 grupo CHAR(1),
