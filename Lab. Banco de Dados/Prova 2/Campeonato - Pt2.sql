@@ -298,7 +298,6 @@ BEGIN
 END 
 GO
 
-
 --	- Uma tela deve mostrar um Campo, onde o usuário digite a data e, em caso de ser uma data com
 --	rodada, mostre uma tabela com todos os jogos daquela rodada.
 CREATE FUNCTION fn_consultarData (@verfData DATE)
@@ -457,7 +456,7 @@ GO
 -- CAMPEONATO (nome_time, num_jogos_disputados*, vitorias, empates, derrotas, gols_marcados, gols_sofridos, saldo_gols**,pontos***)
 -- A ordenação da saída se dá pelo mesmo critério anterior.
 GO
-CREATE FUNCTION fn_gerarTabelaGeralComPontos ()
+ALTER FUNCTION fn_gerarTabelaGeralComPontos ()
 RETURNS @grupos TABLE (
 nome_time	VARCHAR(100),
 num_jogos_disputados INT default(0),
@@ -477,6 +476,13 @@ BEGIN
 
 	UPDATE g
 	SET 
+	
+		-- Atualiza os jogos disputados
+		num_jogos_disputados = ((SELECT COUNT(jj.CodigoTimeA) FROM Jogos jj, Times tt WHERE jj.CodigoTimeA = tt.CodigoTime 
+								AND tt.NomeTime = g.nome_time AND jj.GolsTimeA IS NOT NULL AND jj.GolsTimeB IS NOT NULL)
+							   + (SELECT COUNT(jj.CodigoTimeB) FROM Jogos jj, Times tt WHERE jj.CodigoTimeB = tt.CodigoTime 
+								AND tt.NomeTime = g.nome_time AND jj.GolsTimeA IS NOT NULL AND jj.GolsTimeB IS NOT NULL)),
+		
 		-- Atualiza os empates 
 		empates = ((SELECT COUNT(jj.CodigoTimeA) FROM Jogos jj, Times tt WHERE jj.CodigoTimeA = tt.CodigoTime 
 					AND tt.NomeTime = g.nome_time AND jj.GolsTimeA = jj.GolsTimeB AND jj.GolsTimeA IS NOT NULL AND jj.GolsTimeB IS NOT NULL)
@@ -502,7 +508,7 @@ BEGIN
 		-- Atualiza os gols sofridos 
 		gols_sofridos = ((SELECT CASE WHEN (SUM(jj.GolsTimeB) IS NOT NULL) THEN SUM(jj.GolsTimeB) ELSE 0 END FROM Jogos jj, Times tt WHERE jj.CodigoTimeA = tt.CodigoTime AND tt.NomeTime = g.nome_time AND jj.GolsTimeB IS NOT NULL)
 					  + (SELECT CASE WHEN (SUM(jj.GolsTimeA) IS NOT NULL) THEN SUM(jj.GolsTimeA) ELSE 0 END FROM Jogos jj, Times tt WHERE jj.CodigoTimeB = tt.CodigoTime AND tt.NomeTime = g.nome_time AND jj.GolsTimeA IS NOT NULL))
-	
+		
 	FROM Times t, @grupos g
 	WHERE g.nome_time = t.NomeTime
 	
@@ -542,7 +548,6 @@ BEGIN
 	RETURN 
 END 
 GO
-
 
 -- Tabelas de cada grupo com pontos Ordenada 
 SELECT * FROM fn_gerarTabelaGrupoComPontos ('B') ORDER BY pontos DESC, vitorias DESC, gols_marcados DESC, saldo_gols DESC 
