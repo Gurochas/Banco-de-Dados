@@ -130,3 +130,4 @@ SELECT j.codigo, j.nomeJogador, j.sexo, j.altura ,
 FROM jogador j, times t 
 WHERE j.id_time = t.id
 	AND j.codigo = 900101
+	
