@@ -28,24 +28,24 @@ public class JogadorTime {
 	@Column
 	private String dt_nasc;
 	@Column
-	private String idade;
+	private int idade;
 	@Column
-	private String id;
+	private int id;
 	@Column
 	private String nome;
 	@Column
 	private String cidade;
 	
-	public String getIdade() {
+	public int getIdade() {
 		return idade;
 	}
-	public void setIdade(String idade) {
+	public void setIdade(int idade) {
 		this.idade = idade;
 	}
-	public String getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getNome() {

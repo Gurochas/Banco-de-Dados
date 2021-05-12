@@ -7,8 +7,15 @@ public class JogadorDTO {
 	private String sexo;
 	private float altura;
 	private String dt_nasc;
-	private String times;
+	private TimesDTO times;
+	private int idade;
 	
+	public int getIdade() {
+		return idade;
+	}
+	public void setIdade(int idade) {
+		this.idade = idade;
+	}
 	public int getCodigo() {
 		return codigo;
 	}
@@ -39,17 +46,17 @@ public class JogadorDTO {
 	public void setDt_nasc(String dt_nasc) {
 		this.dt_nasc = dt_nasc;
 	}
-	public String getTimes() {
+	public TimesDTO getTimes() {
 		return times;
 	}
-	public void setTimes(String times) {
+	public void setTimes(TimesDTO times) {
 		this.times = times;
 	}
 	
 	@Override
 	public String toString() {
-		return "Jogador [codigo=" + codigo + ", nome=" + nomeJogador + ", sexo=" + sexo + ", altura=" + altura
-				+ ", dt_nasc=" + dt_nasc + ", times=" + times + "]";
+		return "JogadorDTO [codigo=" + codigo + ", nomeJogador=" + nomeJogador + ", sexo=" + sexo + ", altura=" + altura
+				+ ", dt_nasc=" + dt_nasc + ", times=" + times + ", idade=" + idade + "]";
 	}
 
 }
